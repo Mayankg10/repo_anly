@@ -278,23 +278,23 @@ export default function App() {
                           <ReactMarkdown
                             remarkPlugins={[remarkGfm]}
                             components={{
-                              h1: ({...props}: any) => <h1 className="text-3xl font-bold text-slate-900 mt-6 mb-4 first:mt-0" {...props} />,
-                              h2: ({...props}: any) => <h2 className="text-2xl font-semibold text-slate-900 mt-5 mb-3 first:mt-0" {...props} />,
-                              h3: ({...props}: any) => <h3 className="text-xl font-semibold text-slate-900 mt-4 mb-2 first:mt-0" {...props} />,
-                              p: ({...props}: any) => <p className="text-slate-700 leading-7 mb-4" {...props} />,
-                              ul: ({...props}: any) => <ul className="list-disc list-inside text-slate-700 mb-4 space-y-2 ml-4" {...props} />,
-                              ol: ({...props}: any) => <ol className="list-decimal list-inside text-slate-700 mb-4 space-y-2 ml-4" {...props} />,
-                              li: ({...props}: any) => <li className="text-slate-700 leading-7" {...props} />,
-                              strong: ({...props}: any) => <strong className="font-semibold text-slate-900" {...props} />,
-                              em: ({...props}: any) => <em className="italic text-slate-700" {...props} />,
-                              code: ({inline, ...props}: any) => 
+                              h1: ({children, ...props}: any) => <h1 className="text-3xl font-bold text-slate-900 mt-6 mb-4 first:mt-0" {...props}>{children}</h1>,
+                              h2: ({children, ...props}: any) => <h2 className="text-2xl font-semibold text-slate-900 mt-5 mb-3 first:mt-0" {...props}>{children}</h2>,
+                              h3: ({children, ...props}: any) => <h3 className="text-xl font-semibold text-slate-900 mt-4 mb-2 first:mt-0" {...props}>{children}</h3>,
+                              p: ({children, ...props}: any) => <p className="text-slate-700 leading-7 mb-4" {...props}>{children}</p>,
+                              ul: ({children, ...props}: any) => <ul className="list-disc list-inside text-slate-700 mb-4 space-y-2 ml-4" {...props}>{children}</ul>,
+                              ol: ({children, ...props}: any) => <ol className="list-decimal list-inside text-slate-700 mb-4 space-y-2 ml-4" {...props}>{children}</ol>,
+                              li: ({children, ...props}: any) => <li className="text-slate-700 leading-7" {...props}>{children}</li>,
+                              strong: ({children, ...props}: any) => <strong className="font-semibold text-slate-900" {...props}>{children}</strong>,
+                              em: ({children, ...props}: any) => <em className="italic text-slate-700" {...props}>{children}</em>,
+                              code: ({inline, children, ...props}: any) => 
                                 inline ? (
-                                  <code className="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded text-sm font-mono" {...props} />
+                                  <code className="bg-indigo-50 text-indigo-700 px-1.5 py-0.5 rounded text-sm font-mono" {...props}>{children}</code>
                                 ) : (
-                                  <code className="block bg-slate-100 text-slate-900 p-4 rounded-lg overflow-x-auto text-sm font-mono mb-4" {...props} />
+                                  <code className="block bg-slate-100 text-slate-900 p-4 rounded-lg overflow-x-auto text-sm font-mono mb-4" {...props}>{children}</code>
                                 ),
-                              a: ({...props}: any) => <a className="text-indigo-600 hover:text-indigo-700 hover:underline font-medium" {...props} />,
-                              blockquote: ({...props}: any) => <blockquote className="border-l-4 border-indigo-300 pl-4 italic text-slate-600 my-4" {...props} />,
+                              a: ({children, ...props}: any) => <a className="text-indigo-600 hover:text-indigo-700 hover:underline font-medium" {...props}>{children}</a>,
+                              blockquote: ({children, ...props}: any) => <blockquote className="border-l-4 border-indigo-300 pl-4 italic text-slate-600 my-4" {...props}>{children}</blockquote>,
                             }}
                           >
                             {result.ai_insights}
