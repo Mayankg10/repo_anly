@@ -21,11 +21,70 @@ export default function App() {
           body: JSON.stringify({ query: 'Analyze ' + query }),
         }
       );
-      const data = await res.json();
-      setResult(data);
-    } catch (error) {
+
+      // Get response text first (can only read once)
+      const responseText = await res.text();
+      
+      // Check if response is ok
+      if (!res.ok) {
+        let errorMessage = `Server error: ${res.status} ${res.statusText}`;
+        if (responseText) {
+          try {
+            const errorData = JSON.parse(responseText);
+            if (errorData.error || errorData.message) {
+              errorMessage = errorData.error || errorData.message;
+            } else {
+              errorMessage = responseText.substring(0, 200);
+            }
+          } catch (e) {
+            // If not JSON, use text as error message
+            errorMessage = responseText.substring(0, 200) || errorMessage;
+          }
+        }
+        setResult({ error: errorMessage });
+        setLoading(false);
+        return;
+      }
+
+      // Parse JSON response
+      if (!responseText) {
+        setResult({ error: 'Empty response from server' });
+        setLoading(false);
+        return;
+      }
+
+      let data;
+      try {
+        data = JSON.parse(responseText);
+      } catch (parseError) {
+        console.error('JSON parse error:', parseError);
+        setResult({ error: 'Invalid response format from server. Please check the API endpoint.' });
+        setLoading(false);
+        return;
+      }
+
+      // Check if response contains an error
+      if (data.error) {
+        setResult({ error: data.error });
+      } else {
+        setResult(data);
+      }
+    } catch (error: any) {
       console.error('Error:', error);
-      setResult({ error: 'Failed to analyze repository' });
+      let errorMessage = 'Failed to analyze repository';
+      
+      // Provide more specific error messages
+      if (error.message) {
+        if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+          errorMessage = 'Network error: Unable to connect to the server. The CORS proxy may be unavailable. Please try again later.';
+        } else if (error.message.includes('CORS')) {
+          errorMessage = 'CORS error: The request was blocked. The CORS proxy service may require activation.';
+        } else {
+          errorMessage = `Error: ${error.message}`;
+        }
+      }
+      
+      setResult({ error: errorMessage });
     }
     setLoading(false);
   };
@@ -48,7 +107,7 @@ export default function App() {
               transition={{ delay: 0.1 }}
             >
               <h1 className="text-5xl sm:text-6xl font-extrabold text-slate-900 mb-4 tracking-tight">
-                GitHub Repo Analyzer
+                AI-Powerwed Analyzer
               </h1>
               <p className="text-lg text-slate-600 max-w-xl mx-auto">
                 Get AI-powered insights and comprehensive analysis for any GitHub repository
