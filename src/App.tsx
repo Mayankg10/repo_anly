@@ -14,7 +14,7 @@ export default function App() {
     setResult(null);
     try {
       const res = await fetch(
-        'https://cors-anywhere.herokuapp.com/https://mayankg10.app.n8n.cloud/webhook/ai-orchestrator',
+        'https://mayankg10.app.n8n.cloud/webhook/ai-orchestrator',
         {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
